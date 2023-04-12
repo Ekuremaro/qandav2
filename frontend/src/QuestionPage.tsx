@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 import {
   gray3,
   gray6,
@@ -11,51 +11,54 @@ import {
   PrimaryButton,
   FieldError,
   SubmissionSuccess,
-} from "./Styles";
+} from './Styles';
 
-import React from "react";
-import { Page } from "./Page";
-import { useParams } from "react-router-dom";
-import { QuestionData, getQuestion, postAnswer } from "./QuestionsData";
-import { AnswerList } from "./AnswerList";
+import React from 'react';
+import { Page } from './Page';
+import { useParams } from 'react-router-dom';
+import { getQuestion, postAnswer } from './QuestionsData';
+import { AnswerList } from './AnswerList';
 
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { AppState, gettingQuestionAction, gotQuestionAction } from './Store';
 
 type FormData = {
   content: string;
 };
 
 export const QuestionPage = () => {
-  const [question, setQuestion] = React.useState<QuestionData | null>(null);
-  const [successfullySubmitted, setSuccessfullySubmitted] =
-    React.useState(false);
+  const dispatch = useDispatch();
+  const question = useSelector((state: AppState) => state.questions.viewing);
+
+  const [successfullySubmitted, setSuccessfullySubmitted] = React.useState(
+    false,
+  );
 
   const { questionId } = useParams();
 
   React.useEffect(() => {
     const doGetQuestion = async (questionId: number) => {
+      dispatch(gettingQuestionAction());
       const foundQuestion = await getQuestion(questionId);
-      setQuestion(foundQuestion);
+      dispatch(gotQuestionAction(foundQuestion));
     };
     if (questionId) {
       doGetQuestion(Number(questionId));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionId]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    formState,
-  } = useForm<FormData>({
-    mode: "onBlur",
+  const { register, errors, handleSubmit, formState } = useForm<FormData>({
+    mode: 'onBlur',
   });
 
   const submitForm = async (data: FormData) => {
     const result = await postAnswer({
       questionId: question!.questionId,
       content: data.content,
-      userName: "Fred",
+      userName: 'Fred',
       created: new Date(),
     });
     setSuccessfullySubmitted(result ? true : false);
@@ -79,7 +82,7 @@ export const QuestionPage = () => {
             margin: 10px 0px 5px;
           `}
         >
-          {question === null ? "" : question.title}
+          {question === null ? '' : question.title}
         </div>
         {question !== null && (
           <React.Fragment>
@@ -116,16 +119,16 @@ export const QuestionPage = () => {
                   <FieldLabel htmlFor="content">Your Answer</FieldLabel>
                   <FieldTextArea
                     id="content"
-                    {...register("content", {
+                    name="content"
+                    ref={register({
                       required: true,
                       minLength: 50,
                     })}
-                    name="content"
                   />
-                  {errors.content && errors.content.type === "required" && (
+                  {errors.content && errors.content.type === 'required' && (
                     <FieldError>You must enter the answer</FieldError>
                   )}
-                  {errors.content && errors.content.type === "minLength" && (
+                  {errors.content && errors.content.type === 'minLength' && (
                     <FieldError>
                       The answer must be at least 50 characters
                     </FieldError>
