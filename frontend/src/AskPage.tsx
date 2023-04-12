@@ -20,7 +20,7 @@ type FormData = {
 };
 
 export const AskPage = () => {
-  const { register, formState: { errors }, handleSubmit, formState } = useForm<FormData>({
+  const { register, errors, handleSubmit, formState } = useForm<FormData>({
     mode: 'onBlur',
   });
   const [successfullySubmitted, setSuccessfullySubmitted] = React.useState(
@@ -44,12 +44,12 @@ export const AskPage = () => {
             <FieldLabel htmlFor="title">Title</FieldLabel>
             <FieldInput
               id="title"
+              name="title"
               type="text"
-              {...register("title",{
+              ref={register({
                 required: true,
                 minLength: 10,
               })}
-              name="title"
             />
             {errors.title && errors.title.type === 'required' && (
               <FieldError>You must enter the question title</FieldError>
@@ -62,12 +62,12 @@ export const AskPage = () => {
             <FieldLabel htmlFor="content">Content</FieldLabel>
             <FieldTextArea
               id="content"
-              {...register("content",{
+              name="content"
+              ref={register({
                 required: true,
                 minLength: 50,
               })}
-              name="content"
-              />
+            />
             {errors.content && errors.content.type === 'required' && (
               <FieldError>You must enter the question content</FieldError>
             )}
