@@ -1,22 +1,9 @@
 using DbUp;
+using QandA.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//builder.Configuration.GetConnectionString("DefaultConnection");
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-//EnsureDatabase.For.SqlDatabase(connectionString);
-//var upgrader = DeployChanges.To
-//    .SqlDatabase(connectionString, null)
-//    .WithScriptsEmbeddedInAssembly(
-//      System.Reflection.Assembly.GetExecutingAssembly()
-//    )
-//    .WithTransaction()
-//    .Build();
-//if (upgrader.IsUpgradeRequired())
-//{
-//    upgrader.PerformUpgrade();
-
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 EnsureDatabase.For.SqlDatabase(connectionString);
@@ -28,10 +15,13 @@ var upgrader = DeployChanges.To
     .LogToConsole()
     .Build();
 
+
 if (upgrader.IsUpgradeRequired())
 {
     upgrader.PerformUpgrade();
 }
+
+builder.Services.AddScoped<IDataRepository, DataRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
