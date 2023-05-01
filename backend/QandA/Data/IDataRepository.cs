@@ -14,18 +14,12 @@ namespace QandA.Data
         bool QuestionExists(int questionId);
 
         AnswerGetResponse GetAnswer(int answerId);
-        QuestionGetSingleResponse
+        QuestionGetSingleResponse PostQuestion(QuestionPostFullRequest question);
 
-    PostQuestion(QuestionPostRequest question);
-
-        QuestionGetSingleResponse
-
-          PutQuestion(int questionId, QuestionPutRequest
-
-           question);
+        QuestionGetSingleResponse PutQuestion(int questionId, QuestionPutRequest question);
 
         void DeleteQuestion(int questionId);
 
-        AnswerGetResponse PostAnswer(AnswerPostRequest answer);
+        AnswerGetResponse PostAnswer(AnswerPostFullRequest answer);
     }
 }
