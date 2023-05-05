@@ -15,6 +15,7 @@ namespace QandA.Data
         }
 
         private string GetCacheKey(int questionId) => $"Question-{questionId}";
+
         public QuestionGetSingleResponse Get(int questionId)
         {
             QuestionGetSingleResponse question;
@@ -28,8 +29,9 @@ namespace QandA.Data
             _cache.Set(GetCacheKey(question.QuestionId), question, cacheEntryOptions);
         }
 
-        // TODO - method to add a cached question
-
-        // TODO - method to remove a cached question
+        public void Remove(int questionId)
+        {
+            _cache.Remove(GetCacheKey(questionId));
+        }
     }
 }

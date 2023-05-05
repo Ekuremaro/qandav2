@@ -69,3 +69,4 @@ C:\Users\User\source\repos\QandA\backend\QandA\obj\Debug\net6.0\refint\QandA.dll
 C:\Users\User\source\repos\QandA\backend\QandA\obj\Debug\net6.0\QandA.pdb
 C:\Users\User\source\repos\QandA\backend\QandA\obj\Debug\net6.0\QandA.genruntimeconfig.cache
 C:\Users\User\source\repos\QandA\backend\QandA\obj\Debug\net6.0\ref\QandA.dll
+C:\Users\User\source\repos\QandA\backend\QandA\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
