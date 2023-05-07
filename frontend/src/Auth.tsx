@@ -1,6 +1,6 @@
-import React from 'react';
-import createAuth0Client, { Auth0Client } from '@auth0/auth0-spa-js';
-import { authSettings } from './AppSettings';
+import React from "react";
+import createAuth0Client, { Auth0Client } from "@auth0/auth0-spa-js";
+import { authSettings } from "./AppSettings";
 
 interface Auth0User {
   name?: string;
@@ -22,7 +22,11 @@ export const Auth0Context = React.createContext<IAuth0Context>({
 
 export const useAuth = () => React.useContext(Auth0Context);
 
-export const AuthProvider: React.FC = ({ children }) => {
+type AuthProviderProps = {
+  children: React.ReactNode;
+};
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
   const [user, setUser] = React.useState<Auth0User | undefined>(undefined);
   const [auth0Client, setAuth0Client] = React.useState<Auth0Client>();
@@ -35,8 +39,8 @@ export const AuthProvider: React.FC = ({ children }) => {
       setAuth0Client(auth0FromHook);
 
       if (
-        window.location.pathname === '/signin-callback' &&
-        window.location.search.indexOf('code=') > -1
+        window.location.pathname === "/signin-callback" &&
+        window.location.search.indexOf("code=") > -1
       ) {
         await auth0FromHook.handleRedirectCallback();
         window.location.replace(window.location.origin);
@@ -55,7 +59,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const getAuth0ClientFromState = () => {
     if (auth0Client === undefined) {
-      throw new Error('Auth0 client not set');
+      throw new Error("Auth0 client not set");
     }
     return auth0Client;
   };
@@ -69,7 +73,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         signOut: () =>
           getAuth0ClientFromState().logout({
             client_id: authSettings.client_id,
-            returnTo: window.location.origin + '/signout-callback',
+            returnTo: window.location.origin + "/signout-callback",
           }),
         loading,
       }}
