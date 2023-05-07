@@ -1,5 +1,5 @@
-import { http } from './http';
-import { getAccessToken } from './Auth';
+import { http } from "./http";
+import { getAccessToken } from "./Auth";
 
 export interface QuestionData {
   questionId: number;
@@ -32,7 +32,7 @@ export interface AnswerData {
 }
 
 export const mapQuestionFromServer = (
-  question: QuestionDataFromServer,
+  question: QuestionDataFromServer
 ): QuestionData => ({
   ...question,
   created: new Date(question.created),
@@ -46,7 +46,7 @@ export const mapQuestionFromServer = (
 
 export const getUnansweredQuestions = async (): Promise<QuestionData[]> => {
   const result = await http<QuestionDataFromServer[]>({
-    path: '/questions/unanswered',
+    path: "/questions/unanswered",
   });
   if (result.ok && result.body) {
     return result.body.map(mapQuestionFromServer);
@@ -56,7 +56,7 @@ export const getUnansweredQuestions = async (): Promise<QuestionData[]> => {
 };
 
 export const getQuestion = async (
-  questionId: number,
+  questionId: number
 ): Promise<QuestionData | null> => {
   const result = await http<QuestionDataFromServer>({
     path: `/questions/${questionId}`,
@@ -69,7 +69,7 @@ export const getQuestion = async (
 };
 
 export const searchQuestions = async (
-  criteria: string,
+  criteria: string
 ): Promise<QuestionData[]> => {
   const result = await http<QuestionDataFromServer[]>({
     path: `/questions?search=${criteria}`,
@@ -89,15 +89,16 @@ export interface PostQuestionData {
 }
 
 export const postQuestion = async (
-  question: PostQuestionData,
+  question: PostQuestionData
 ): Promise<QuestionData | undefined> => {
   const accessToken = await getAccessToken();
   const result = await http<QuestionDataFromServer, PostQuestionData>({
-    path: '/questions',
-    method: 'post',
+    path: "/questions",
+    method: "post",
     body: question,
     accessToken,
   });
+
   if (result.ok && result.body) {
     return mapQuestionFromServer(result.body);
   } else {
@@ -113,12 +114,12 @@ export interface PostAnswerData {
 }
 
 export const postAnswer = async (
-  answer: PostAnswerData,
+  answer: PostAnswerData
 ): Promise<AnswerData | undefined> => {
   const accessToken = await getAccessToken();
   const result = await http<AnswerData, PostAnswerData>({
-    path: '/questions/answer',
-    method: 'post',
+    path: "/questions/answer",
+    method: "post",
     body: answer,
     accessToken,
   });
