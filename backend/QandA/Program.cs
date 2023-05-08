@@ -50,13 +50,15 @@ builder.Services.AddAuthorization(options =>
     HasScopeRequirement("read:messages", domain)));
 });
 builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
-builder.Services.AddHttpClient();
+var myDomain = builder.Configuration["Domain"];
+builder.Services.AddHttpClient("MyApi", client => client.BaseAddress = new Uri("https://dev-qw1ss4-u.us.auth0.com"));
 builder.Services.AddAuthorization(options => options.AddPolicy("MustBeQuestionAuthor", policy => policy.Requirements.Add(new MustBeQuestionAuthorRequirement())));
 builder.Services.AddScoped<IAuthorizationHandler, MustBeQuestionAuthorHandler>();
 
 builder.Services.AddHttpContextAccessor();
-var value = builder.Configuration["Frontend"];
-builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder => builder.AllowAnyMethod().AllowAnyHeader().WithOrigins(value)));
+
+var myOrigin = builder.Configuration["Frontend"];
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder => builder.AllowAnyMethod().AllowAnyHeader().WithOrigins(myOrigin)));
 
 
 builder.Services.AddControllers();

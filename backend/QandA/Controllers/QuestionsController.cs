@@ -21,7 +21,7 @@ namespace QandA.Controllers
             _dataRepository = dataRepository;
             _cache = questionCache;
             _clientFactory = clientFactory;
-            _auth0UserInfo = $"{configuration["Auth0:Authority"]}userinfo";
+            _auth0UserInfo = $"https://{configuration["Auth0:Domain"]}/userinfo";
         }
 
         [HttpGet]
@@ -142,7 +142,9 @@ namespace QandA.Controllers
             var request = new HttpRequestMessage(HttpMethod.Get, _auth0UserInfo);
             request.Headers.Add("Authorization", Request.Headers["Authorization"].First());
 
-            var client = _clientFactory.CreateClient();
+            var client = _clientFactory.CreateClient("MyApi");
+            //client.BaseAddress = new Uri("https://dev-qw1ss4-u.us.auth0.com");
+
 
             var response = await client.SendAsync(request);
 
