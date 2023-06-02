@@ -7879,11 +7879,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\source\\repos\\QandA\\backend\\QandA\\QandA.csproj",
+      "projectUniqueName": "c:\\Users\\User\\source\\repos\\QandA\\backend\\QandA\\QandA.csproj",
       "projectName": "QandA",
-      "projectPath": "C:\\Users\\User\\source\\repos\\QandA\\backend\\QandA\\QandA.csproj",
+      "projectPath": "c:\\Users\\User\\source\\repos\\QandA\\backend\\QandA\\QandA.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\source\\repos\\QandA\\backend\\QandA\\obj\\",
+      "outputPath": "c:\\Users\\User\\source\\repos\\QandA\\backend\\QandA\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
